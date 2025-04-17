@@ -53,7 +53,7 @@ export default function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8">
-          {["Početna", "O nama", "Ponuda vozila", "Uvoz po narudžbi", "Kontakt"].map((item, index) => (
+          {["Početna", "O nama", "Ponuda vozila", "Uvoz po narudžbi"].map((item, index) => (
             <motion.div
               key={item}
               initial={{ opacity: 0, y: -20 }}
@@ -78,7 +78,7 @@ export default function Header() {
           transition={{ delay: 0.5, duration: 0.5 }}
           className="hidden md:block"
         >
-          <Link href="/#contact" className="btn-primary relative overflow-hidden group">
+          <Link href="/#kontakt" className="btn-primary relative overflow-hidden group">
             <span className="relative z-10">Kontaktirajte nas</span>
             <span className="absolute inset-0 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
           </Link>
@@ -100,7 +100,7 @@ export default function Header() {
           className="md:hidden bg-white py-4 px-4 shadow-lg"
         >
           <nav className="flex flex-col space-y-4">
-            {["Početna", "O nama", "Ponuda vozila", "Uvoz po narudžbi", "Kontakt"].map((item, index) => (
+            {["Početna", "O nama", "Ponuda vozila", "Uvoz po narudžbi"].map((item, index) => (
               <motion.div
                 key={item}
                 initial={{ opacity: 0, x: -20 }}
@@ -121,7 +121,7 @@ export default function Header() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5, duration: 0.3 }}
             >
-              <Link href="/#contact" className="btn-primary inline-block text-center" onClick={toggleMenu}>
+              <Link href="/#kontakt" className="btn-primary inline-block text-center" onClick={toggleMenu}>
                 Kontaktirajte nas
               </Link>
             </motion.div>
