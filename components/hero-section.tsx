@@ -137,13 +137,13 @@ export default function HeroSection() {
               className="flex flex-col sm:flex-row gap-4"
             >
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link href="/#vehicles" className="btn-primary inline-block">
+                <Link href="/#ponuda-vozila" className="btn-primary inline-block">
                   Pogledajte ponudu
                 </Link>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link
-                  href="/#import"
+                  href="/#uvoz-po-narudžbi"
                   className="bg-transparent hover:bg-white/20 text-white border border-white font-medium py-2 px-6 rounded-md transition-all duration-300"
                 >
                   Uvoz po narudžbi
