@@ -41,7 +41,7 @@ export default function Footer() {
           <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <Link href="/" className="flex items-center space-x-2 mb-6">
               <motion.div whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1 }} transition={{ duration: 0.5 }}>
-                <Image src="/logo-white.svg" alt="Royal Motors Logo" width={40} height={40} />
+                <Image src="/favicon.ico" alt="Royal Motors Logo" width={40} height={40} />
               </motion.div>
               <span className="text-xl font-bold">Royal Motors</span>
             </Link>

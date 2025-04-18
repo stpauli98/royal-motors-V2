@@ -237,7 +237,15 @@ export default function ContactSection() {
               className="relative h-[300px] rounded-lg overflow-hidden shadow-lg"
             >
               <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.5 }} className="w-full h-full">
-                <Image src="/car-transport.png" alt="Test image" fill className="object-cover" />
+                <iframe
+  src="https://www.google.com/maps?q=44.7866,20.4489&z=15&output=embed"
+  width="100%"
+  height="100%"
+  style={{ border: 0, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+  allowFullScreen={true}
+  loading="lazy"
+  referrerPolicy="no-referrer-when-downgrade"
+></iframe>
               </motion.div>
 
               {/* Map pin animation */}
