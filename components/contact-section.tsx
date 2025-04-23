@@ -236,39 +236,17 @@ export default function ContactSection() {
               transition={{ duration: 0.8, delay: 0.9 }}
               className="relative h-[300px] rounded-lg overflow-hidden shadow-lg"
             >
-              <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.5 }} className="w-full h-full">
+              <div className="w-full h-full relative">
                 <iframe
-  src="https://www.google.com/maps?q=44.7866,20.4489&z=15&output=embed"
-  width="100%"
-  height="100%"
-  style={{ border: 0, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-  allowFullScreen={true}
-  loading="lazy"
-  referrerPolicy="no-referrer-when-downgrade"
-></iframe>
-              </motion.div>
-
-              {/* Map pin animation */}
-              <motion.div
-                initial={{ y: -50, opacity: 0 }}
-                animate={isInView ? { y: 0, opacity: 1 } : { y: -50, opacity: 0 }}
-                transition={{ duration: 0.8, delay: 1.2, type: "spring" }}
-                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-              >
-                <motion.div
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-                >
-                  <div className="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center text-white">
-                    <MapPin className="w-6 h-6" />
-                  </div>
-                  <motion.div
-                    animate={{ opacity: [0, 1, 0], scale: [1, 1.5, 1] }}
-                    transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-                    className="absolute -inset-2 rounded-full border-2 border-blue-900"
-                  ></motion.div>
-                </motion.div>
-              </motion.div>
+                  src="https://www.google.com/maps?q=44.7866,20.4489&z=15&output=embed"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                  allowFullScreen={true}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
             </motion.div>
           </div>
 

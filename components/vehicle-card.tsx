@@ -1,100 +1,109 @@
 "use client"
 
-import Image from "next/image"
-import Link from "next/link"
-import { Calendar, Gauge, Droplet } from "lucide-react"
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { Calendar, Gauge, Droplet, Settings } from "lucide-react";
+import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 interface VehicleProps {
   vehicle: {
-    id: number
-    title: string
-    image: string
-    year: string
-    mileage: string
-    fuel: string
-    price: string
-    category: string
-  }
+    id: number;
+    brand: string;
+    model: string;
+    year: number;
+    price: number;
+    discount: number;
+    discount_type: string;
+    mileage: number;
+    fuel: string;
+    transmission: string;
+    power: number;
+    color: string;
+    description: string;
+    status: string;
+    images: string[];
+    views: number;
+    created_at: string;
+    category: string;
+};
 }
 
+
 export default function VehicleCard({ vehicle }: VehicleProps) {
+  console.log("Tip:", typeof vehicle.images, "Sadržaj:", vehicle.images);
+  const images = typeof vehicle.images === "string" ? JSON.parse(vehicle.images) : vehicle.images;
   return (
-    <motion.div
-      whileHover={{ y: -10, scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className="bg-white rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl relative group"
-    >
-      <div className="relative h-48 w-full overflow-hidden">
-        <motion.div whileHover={{ scale: 1.1 }} transition={{ duration: 0.5 }} className="w-full h-full">
-          <Image src="/car-transport.png" alt={vehicle.title} fill className="object-cover" />
-        </motion.div>
-
-        {/* Price tag */}
-        <motion.div
-          initial={{ x: 100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="absolute top-4 right-4 bg-blue-900 text-white px-3 py-1 rounded-full font-bold shadow-lg"
-        >
+    <Card className="group overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+      {/* Image Section */}
+      <motion.div
+        className="relative h-48 w-full overflow-hidden"
+        whileHover={{ scale: 1.05 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Image
+          src={images[0]}
+          alt={`${vehicle.brand} ${vehicle.model}`}
+          fill
+          className="object-cover"
+        />
+        <div className="absolute top-4 left-4 bg-yellow-500 text-white px-3 py-1 rounded-full font-semibold shadow">
+          {vehicle.status || "Used"}
+        </div>
+        <div className="absolute top-4 right-4 bg-blue-900 text-white px-3 py-1 rounded-full font-bold shadow">
           {vehicle.price}
-        </motion.div>
+        </div>
+      </motion.div>
 
-        {/* Hover overlay */}
+      <CardHeader className="p-4 pt-6">
+        <h3 className="text-2xl font-extrabold text-gray-800 group-hover:text-blue-900">
+          {vehicle.brand} {vehicle.model}
+        </h3>
+      </CardHeader>
+
+      <CardContent className="p-4 pt-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div className="flex items-center">
+            <Calendar className="h-5 w-5 text-gray-500 mr-2" />
+            <span className="text-sm text-gray-700">Godina: {vehicle.year}</span>
+          </div>
+          <div className="flex items-center">
+            <Gauge className="h-5 w-5 text-gray-500 mr-2" />
+            <span className="text-sm text-gray-700">Kilometraža: {vehicle.mileage}</span>
+          </div>
+          <div className="flex items-center">
+            <Droplet className="h-5 w-5 text-gray-500 mr-2" />
+            <span className="text-sm text-gray-700">Gorivo: {vehicle.fuel}</span>
+          </div>
+          {vehicle.transmission && (
+            <div className="flex items-center">
+              <Settings className="h-5 w-5 text-gray-500 mr-2" />
+              <span className="text-sm text-gray-700">Mjenjač: {vehicle.transmission}</span>
+            </div>
+          )}
+          {vehicle.power && (
+            <div className="flex items-center">
+              <Droplet className="h-5 w-5 text-gray-500 mr-2 rotate-45" />
+              <span className="text-sm text-gray-700">KS: {vehicle.power}</span>
+            </div>
+          )}
+        </div>
+      </CardContent>
+
+      <CardFooter className="p-4 pt-2 flex justify-end">
         <motion.div
-          initial={{ opacity: 0 }}
-          whileHover={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="absolute inset-0 bg-gradient-to-t from-blue-900/80 to-transparent flex items-end justify-center p-4"
+          whileHover={{ scale: 1.05, x: 5 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ duration: 0.2 }}
         >
-          <Link
-            href={`/vehicles/${vehicle.id}`}
-            className="bg-white text-blue-900 px-4 py-2 rounded-md font-medium transform transition-transform duration-300 hover:scale-105"
-          >
-            Pogledaj detalje
+          <Link href={`/vehicles/${vehicle.id}`} passHref>
+            <Button variant="custom">
+              Pogledaj detalje
+            </Button>
           </Link>
         </motion.div>
-      </div>
-
-      <div className="p-6 relative">
-        {/* Decorative element */}
-        <motion.div
-          initial={{ width: 0 }}
-          whileHover={{ width: "30%" }}
-          className="absolute top-0 left-0 h-1 bg-yellow-500"
-        ></motion.div>
-
-        <h3 className="text-xl font-bold mb-2">{vehicle.title}</h3>
-
-        <div className="grid grid-cols-3 gap-2 mb-4">
-          <motion.div whileHover={{ y: -3 }} className="flex items-center text-gray-600">
-            <Calendar className="h-4 w-4 mr-1" />
-            <span className="text-sm">{vehicle.year}</span>
-          </motion.div>
-          <motion.div whileHover={{ y: -3 }} className="flex items-center text-gray-600">
-            <Gauge className="h-4 w-4 mr-1" />
-            <span className="text-sm">{vehicle.mileage}</span>
-          </motion.div>
-          <motion.div whileHover={{ y: -3 }} className="flex items-center text-gray-600">
-            <Droplet className="h-4 w-4 mr-1" />
-            <span className="text-sm">{vehicle.fuel}</span>
-          </motion.div>
-        </div>
-
-        <div className="flex justify-between items-center">
-          <span className="text-xl font-bold text-blue-900 group-hover:text-yellow-500 transition-colors duration-300">
-            {vehicle.price}
-          </span>
-          <motion.div whileHover={{ scale: 1.1, rotate: 5 }} whileTap={{ scale: 0.9 }}>
-            <Link
-              href={`/vehicles/${vehicle.id}`}
-              className="text-blue-900 hover:text-yellow-500 font-medium transition-colors duration-300"
-            >
-              Detalji
-            </Link>
-          </motion.div>
-        </div>
-      </div>
-    </motion.div>
-  )
+      </CardFooter>
+    </Card>
+  );
 }

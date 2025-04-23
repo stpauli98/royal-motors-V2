@@ -3,78 +3,52 @@
 import { useState, useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import VehicleCard from "./vehicle-card"
+import {neon} from "@neondatabase/serverless"
+import { console } from "inspector"
 
-// Sample vehicle data
-const vehicles = [
-  {
-    id: 1,
-    title: "Audi A6 2.0 TDI",
-    image: "/vehicles/audi-a6.jpg",
-    year: "2018",
-    mileage: "120,000 km",
-    fuel: "Dizel",
-    price: "25,900 €",
-    category: "sedan",
-  },
-  {
-    id: 2,
-    title: "BMW X5 3.0d xDrive",
-    image: "/vehicles/bmw-x5.jpg",
-    year: "2019",
-    mileage: "85,000 km",
-    fuel: "Dizel",
-    price: "42,500 €",
-    category: "suv",
-  },
-  {
-    id: 3,
-    title: "Mercedes-Benz C220d",
-    image: "/vehicles/mercedes-c.jpg",
-    year: "2020",
-    mileage: "65,000 km",
-    fuel: "Dizel",
-    price: "32,900 €",
-    category: "sedan",
-  },
-  {
-    id: 4,
-    title: "Volkswagen Golf 8 1.5 TSI",
-    image: "/vehicles/vw-golf.jpg",
-    year: "2021",
-    mileage: "45,000 km",
-    fuel: "Benzin",
-    price: "22,500 €",
-    category: "hatchback",
-  },
-  {
-    id: 5,
-    title: "Škoda Octavia 2.0 TDI",
-    image: "/vehicles/skoda-octavia.jpg",
-    year: "2020",
-    mileage: "70,000 km",
-    fuel: "Dizel",
-    price: "19,900 €",
-    category: "hatchback",
-  },
-  {
-    id: 6,
-    title: "Toyota RAV4 Hybrid",
-    image: "/vehicles/toyota-rav4.jpg",
-    year: "2019",
-    mileage: "60,000 km",
-    fuel: "Hibrid",
-    price: "28,500 €",
-    category: "suv",
-  },
-]
+export async function getServerSideProps() {
+  try {
+    const sql = neon(process.env.DATABASE_URL!);
+    const vehicles = await sql`SELECT * FROM cars`;
+    return { props: { vehicles: vehicles } };
+  } catch (error) {
+    return { props: { vehicles: [], error: "Error connecting to DB: " + (error as Error).message } };
+  }
+}
 
-export default function VehiclesSection() {
-  const [activeCategory, setActiveCategory] = useState("all")
+export type Vehicle = {
+  id: number;
+  brand: string;
+  model: string;
+  year: number;
+  price: number;
+  discount: number;
+  discount_type: string;
+  mileage: number;
+  fuel: string;
+  transmission: string;
+  power: number;
+  color: string;
+  description: string;
+  status: string;
+  images: string[];
+  views: number;
+  created_at: string;
+  category: string;
+};
+
+interface VehiclesSectionProps {
+  vehicles: Vehicle[];
+  error?: string;
+}
+
+export default function VehiclesSection({ vehicles = [], error }: VehiclesSectionProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: false, amount: 0.2 })
 
-  const filteredVehicles =
-    activeCategory === "all" ? vehicles : vehicles.filter((vehicle) => vehicle.category === activeCategory)
+  if (error) {
+    return <div style={{ color: 'red' }}>{error}</div>;
+  }
 
   return (
     <section id="ponuda-vozila" ref={ref} className="section-padding relative overflow-hidden">
@@ -129,46 +103,6 @@ export default function VehiclesSection() {
           </motion.p>
         </motion.div>
 
-        {/* Category Filter */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="flex justify-center mb-10"
-        >
-          <div className="inline-flex bg-gray-100 rounded-lg p-1 relative overflow-hidden">
-            {["all", "sedan", "suv", "hatchback"].map((category, index) => (
-              <motion.button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`px-4 py-2 rounded-md relative z-10 ${
-                  activeCategory === category ? "text-white" : "text-gray-700"
-                }`}
-              >
-                {activeCategory === category && (
-                  <motion.div
-                    layoutId="activeCategory"
-                    className="absolute inset-0 bg-blue-900 rounded-md"
-                    initial={false}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  />
-                )}
-                <span className="relative z-10">
-                  {category === "all"
-                    ? "Svi modeli"
-                    : category === "sedan"
-                      ? "Sedan"
-                      : category === "suv"
-                        ? "SUV"
-                        : "Hatchback"}
-                </span>
-              </motion.button>
-            ))}
-          </div>
-        </motion.div>
-
         {/* Vehicles Grid */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -176,7 +110,7 @@ export default function VehiclesSection() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {filteredVehicles.map((vehicle, index) => (
+          {vehicles.map((vehicle: Vehicle, index: number) => (
             <motion.div
               key={vehicle.id}
               initial={{ opacity: 0, y: 50 }}
