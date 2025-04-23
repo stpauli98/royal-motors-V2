@@ -32,7 +32,6 @@ interface VehicleProps {
 
 
 export default function VehicleCard({ vehicle }: VehicleProps) {
-  console.log("Tip:", typeof vehicle.images, "Sadržaj:", vehicle.images);
   const images = typeof vehicle.images === "string" ? JSON.parse(vehicle.images) : vehicle.images;
   return (
     <Card className="group overflow-hidden hover:shadow-2xl transition-shadow duration-300">
