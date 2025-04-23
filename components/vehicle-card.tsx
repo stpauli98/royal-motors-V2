@@ -52,7 +52,7 @@ export default function VehicleCard({ vehicle }: VehicleProps) {
           {vehicle.status || "Used"}
         </div>
         <div className="absolute top-4 right-4 bg-blue-900 text-white px-3 py-1 rounded-full font-bold shadow">
-          {vehicle.price}
+          {vehicle.price} BAM
         </div>
       </motion.div>
 
@@ -99,7 +99,7 @@ export default function VehicleCard({ vehicle }: VehicleProps) {
         >
           <Link href={`/vehicles/${vehicle.id}`} passHref>
             <Button variant="custom">
-              Pogledaj detalje
+              Detaljnije
             </Button>
           </Link>
         </motion.div>
